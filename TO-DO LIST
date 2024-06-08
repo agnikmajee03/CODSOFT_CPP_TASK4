@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Task {
+    std::string description;
+    bool completed;
+};
+
+// Function to add a task to the list
+void addTask(std::vector<Task>& tasks, const std::string& description) {
+    tasks.push_back({description, false});
+}
+
+// Function to display the list of tasks
+void viewTasks(const std::vector<Task>& tasks) {
+    std::cout << "Tasks:" << std::endl;
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        std::cout << i + 1 << ". " << tasks[i].description << " - "
+                  << (tasks[i].completed ? "Completed" : "Pending") << std::endl;
+    }
+}
+
+// Function to mark a task as completed
+void markTaskCompleted(std::vector<Task>& tasks, size_t index) {
+    if (index >= 1 && index <= tasks.size()) {
+        tasks[index - 1].completed = true;
+        std::cout << "Task marked as completed." << std::endl;
+    } else {
+        std::cout << "Invalid task index." << std::endl;
+    }
+}
+
+// Function to remove a task from the list
+void removeTask(std::vector<Task>& tasks, size_t index) {
+    if (index >= 1 && index <= tasks.size()) {
+        tasks.erase(tasks.begin() + index - 1);
+        std::cout << "Task removed." << std::endl;
+    } else {
+        std::cout << "Invalid task index." << std::endl;
+    }
+}
+
+int main() {
+    std::vector<Task> tasks;
+
+    while (true) {
+        std::cout << "\nMenu:\n1. Add Task\n2. View Tasks\n3. Mark Task as Completed\n4. Remove Task\n5. Exit\n";
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 5) {
+            break;
+        }
+
+        switch (choice) {
+            case 1:
+                std::cout << "Enter task description: ";
+                std::cin.ignore(); // Ignore newline character from previous input
+                std::string description;
+                std::getline(std::cin, description);
+                addTask(tasks, description);
+                break;
+            case2:
+                viewTasks(tasks);
+                break;
+            case3:
+                size_t completeIndex;
+                std::cout << "Enter the index of the task to mark as completed: ";
+                std::cin >> completeIndex;
+                markTaskCompleted(tasks, completeIndex);
+                break;
+            case4:
+                size_t removeIndex;
+                std::cout << "Enter the index of the task to remove: ";
+                std::cin >> removeIndex;
+                removeTask(tasks, removeIndex);
+                break;
+         default:
+                std::cout << "Invalid choice. Please try again." << std::endl;
+                break;
+        }
+    }
+
+    return 0;
+}
